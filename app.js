@@ -16,7 +16,7 @@ app.use(
   })
 );
 
-app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use('/api/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(routes);
 
 const PORT = 3000 || process.env.PORT;

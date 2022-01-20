@@ -11,6 +11,10 @@ app.use(
   })
 );
 
+const indexRouter = require('./routers/index');
+
+app.use('/', indexRouter);
+
 const PORT = 5000 || process.env.PORT;
 
 app.listen(PORT, () => {

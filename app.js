@@ -3,6 +3,11 @@ const cors = require('cors');
 
 const app = express();
 
+const routes = require('./src/routes');
+
+const swaggerUi = require('swagger-ui-express');
+const swaggerFile = require('./swagger_output.json');
+
 app.use(cors());
 app.use(express.json());
 app.use(
@@ -11,11 +16,10 @@ app.use(
   })
 );
 
-const indexRouter = require('./routers/index');
+app.use('/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use(routes);
 
-app.use('/', indexRouter);
-
-const PORT = 5000 || process.env.PORT;
+const PORT = 3000 || process.env.PORT;
 
 app.listen(PORT, () => {
   console.log(`Server running on port: ${PORT}`);

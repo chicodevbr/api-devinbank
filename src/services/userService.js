@@ -5,7 +5,7 @@ module.exports = {
     const users = getData('user.json');
     try {
       const user = users.find((item) => {
-        item.id === Number(id);
+        item.id === id;
 
         if (!user) {
           throw new Error('Sem usuários para este ID.');

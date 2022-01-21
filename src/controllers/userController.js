@@ -2,7 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 const { validationResult } = require('express-validator');
 const { getData, createOrUpdateData } = require('../utils/functions');
 
-const userService = require('../services/userService');
+//const userService = require('../services/userService');
 
 module.exports = {
   async index(req, res) {
@@ -13,9 +13,16 @@ module.exports = {
 
   async indexOne(req, res) {
     const { id } = req.params;
+    const users = getData('user.json');
+
     try {
-      const response = await userService.getUserById(id);
-      return res.status(400).json(response);
+      const user = await users.find((item) => item.id === id);
+
+      if (!user) {
+        throw new Error('Usuário não encontrado.');
+      }
+
+      return res.status(200).json(user);
     } catch (error) {
       console.log(error.message);
       return res.status(400).json({ error: error.message });

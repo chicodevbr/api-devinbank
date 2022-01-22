@@ -1,8 +1,8 @@
 const doc = {
   info: {
     version: '1.0.0',
-    title: 'API DevInBank',
-    description: 'Welcome to API DEVinBank || Conta 365 - version 1.0',
+    title: 'API DEVinBank',
+    description: 'Welcome to API DEVinBank || Conta 365 - version 1.0.0',
   },
   host: 'localhost:3000',
   basePath: '/',
@@ -17,11 +17,10 @@ const doc = {
     },
     {
       name: 'User',
-      description:
-        'Endpoints para trabalhar com informações e cadastros de usuários.',
+      description: 'Endpoints de informações e cadastros de usuários.',
     },
     {
-      name: 'Transaction',
+      name: 'Financial',
       description: 'Endpoints de transações financeiras.',
     },
   ],

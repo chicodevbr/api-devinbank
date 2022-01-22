@@ -10,5 +10,10 @@ userRoutes.post(
   [check('name').not().isEmpty(), check('email').normalizeEmail().isEmail()],
   userController.createNewUser
 );
+userRoutes.patch(
+  '/user/:id',
+  [check('name').not().isEmpty(), check('email').normalizeEmail().isEmail()],
+  userController.updateUser
+);
 
 module.exports = userRoutes;

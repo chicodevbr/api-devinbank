@@ -2,18 +2,41 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "REST API",
-    "description": ""
+    "title": "API DevInBank",
+    "description": "Welcome to API DEVinBank || Conta 365 - version 1.0"
   },
   "host": "localhost:3000",
   "basePath": "/",
+  "tags": [
+    {
+      "name": "Index",
+      "description": "Endpoint de boas-vindas com informações a respeito das versões da API."
+    },
+    {
+      "name": "User",
+      "description": "Endpoints para trabalhar com informações e cadastros de usuários."
+    },
+    {
+      "name": "Transaction",
+      "description": "Endpoints de transações financeiras."
+    }
+  ],
   "schemes": [
     "http"
   ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
   "paths": {
-    "/api/": {
+    "/api/v1/": {
       "get": {
-        "description": "",
+        "tags": [
+          "Index"
+        ],
+        "description": "Endpoint indexx que retorna versão da API.",
         "parameters": [],
         "responses": {
           "200": {
@@ -22,9 +45,12 @@
         }
       }
     },
-    "/api/users": {
+    "/api/v1/users": {
       "get": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint que retorna lista com todos os usuários cadastrados.",
         "parameters": [],
         "responses": {
           "200": {
@@ -33,9 +59,12 @@
         }
       }
     },
-    "/api/user/{id}": {
+    "/api/v1/user/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint que pesquisa e devolve usuário por ID.",
         "parameters": [
           {
             "name": "id",
@@ -45,15 +74,55 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "OK"
+          },
           "400": {
             "description": "Bad Request"
           }
         }
+      },
+      "patch": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint que atualiza usuário cadastrado.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "obj",
+            "in": "body",
+            "description": "Dados necessarios para atualizar usuário.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateUser"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
+          }
+        }
       }
     },
-    "/api/new-user": {
+    "/api/v1/new-user": {
       "post": {
-        "description": "",
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para cadastrar novo usuário.",
         "parameters": [
           {
             "name": "body",
@@ -74,9 +143,116 @@
         "responses": {
           "201": {
             "description": "Created"
+          },
+          "422": {
+            "description": "Unprocessable Entity"
           }
         }
       }
+    }
+  },
+  "definitions": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "example": "Jhon Doe"
+        },
+        "email": {
+          "type": "string",
+          "example": "email@email.com"
+        }
+      }
+    },
+    "Transaction": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "number",
+          "example": 1
+        },
+        "userId": {
+          "type": "number",
+          "example": 2
+        },
+        "financialData": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "example": 1
+              },
+              "price": {
+                "type": "number",
+                "example": 9.9
+              },
+              "typesOfExpenses": {
+                "type": "string",
+                "example": "Food"
+              },
+              "date": {
+                "type": "string",
+                "example": "1969-12-31"
+              },
+              "name": {
+                "type": "string",
+                "example": "Food's Expenses."
+              }
+            }
+          }
+        }
+      }
+    },
+    "UpdateUser": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "example": "Jhon Doe"
+        },
+        "email": {
+          "type": "string",
+          "example": "jhondoe@doe.com"
+        }
+      },
+      "required": [
+        "name",
+        "email"
+      ]
+    },
+    "AddTransaction": {
+      "type": "object",
+      "properties": {
+        "price": {
+          "type": "number",
+          "example": 21.9
+        },
+        "typeOfExpenses": {
+          "type": "string",
+          "example": "Food"
+        },
+        "date": {
+          "type": "string",
+          "example": "1969-12-31T03:00:00.000Z"
+        },
+        "name": {
+          "type": "string",
+          "example": "Food's Expenses"
+        }
+      },
+      "required": [
+        "price",
+        "typeOfExpenses",
+        "date",
+        "name"
+      ]
     }
   }
 }

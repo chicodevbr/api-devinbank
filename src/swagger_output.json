@@ -149,6 +149,27 @@
           }
         }
       }
+    },
+    "/api/v1/expenses/{userId}": {
+      "post": {
+        "tags": [
+          "Financial"
+        ],
+        "description": "Endpoint de importação de dados de despesas enviadas via xlsx.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
     }
   },
   "definitions": {

@@ -1,5 +1,4 @@
 const { v4: uuidv4 } = require('uuid');
-const { validationResult } = require('express-validator');
 const { getData, createOrUpdateData } = require('../utils/functions');
 const xlsxPopulate = require('xlsx-populate');
 
@@ -20,6 +19,7 @@ module.exports = {
       return keys[index] === item;
     });
     const users = getData('user.json');
+    const financial = getData('financial.json');
 
     try {
       const user = await users.find((item) => item.id === userId);
@@ -40,26 +40,23 @@ module.exports = {
           };
         });
 
-        const objUser = Object.assign({ expenseId: uuidv4() }, ...result);
+        const objUser = Object.assign({
+          id: uuidv4(),
+          userId: userId,
+          financialData: [],
+        });
 
-        const newExpense = [
-          {
-            id: uuidv4(),
-            financialData: objUser,
-          },
-        ];
+        const objExpenses = Object.assign(
+          { expenseId: uuidv4() },
 
-        const newExpenseByUserId = [
-          {
-            id: uuidv4(),
-            userId: userId,
-            financialData: objUser,
-          },
-        ];
+          ...result
+        );
 
-        console.log(newExpenseByUserId);
-        createOrUpdateData('financial.json', ...newExpenseByUserId);
+        objUser.financialData.push(objExpenses);
+
+        financial.push(objUser);
       });
+      createOrUpdateData('financial.json', financial);
 
       return res
         .status(200)

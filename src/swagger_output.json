@@ -151,6 +151,28 @@
       }
     },
     "/api/v1/expenses/{userId}": {
+      "get": {
+        "tags": [
+          "Financial"
+        ],
+        "description": "Endpoint que retorna todas as despesas por id de usuário.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
       "post": {
         "tags": [
           "Financial"
@@ -167,6 +189,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }

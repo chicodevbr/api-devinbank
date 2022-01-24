@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const { getData, createOrUpdateData } = require('../utils/functions');
 const xlsxPopulate = require('xlsx-populate');
+const { getAllExpenses } = require('../services/financial');
 
 module.exports = {
   async importExpensesData(req, res) {
@@ -19,7 +20,7 @@ module.exports = {
       return keys[index] === item;
     });
     const users = getData('user.json');
-    const financial = getData('financial.json');
+    const financial = getAllExpenses();
 
     try {
       const user = await users.find((item) => item.id === userId);
@@ -61,6 +62,27 @@ module.exports = {
       return res
         .status(200)
         .send({ message: 'Despesas cadastradas com sucesso.' });
+    } catch (error) {
+      console.log(error.message);
+      return res.status(400).json({ error: error.message });
+    }
+  },
+
+  async getExpensesByUserId(req, res) {
+    /**
+     * #swagger.tags = ['Financial']
+     * #swagger.description = 'Endpoint que retorna todas as despesas por id de usuário.'
+     */
+    const { userId } = req.params;
+
+    const expensesData = await getAllExpenses();
+
+    try {
+      const expensesDataByUserId = expensesData.filter(
+        (item) => item.userId === userId
+      );
+
+      return res.status(200).json(expensesDataByUserId);
     } catch (error) {
       console.log(error.message);
       return res.status(400).json({ error: error.message });

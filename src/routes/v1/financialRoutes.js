@@ -5,6 +5,10 @@ const financialControllers = require('../../controllers/financialControllers');
 
 const upload = multer();
 
+financialRoutes.get(
+  '/expenses/:userId',
+  financialControllers.getExpensesByUserId
+);
 financialRoutes.post(
   '/expenses/:userId',
   upload.single('file'),

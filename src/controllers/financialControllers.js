@@ -1,7 +1,11 @@
 const { v4: uuidv4 } = require('uuid');
-const { getData, createOrUpdateData } = require('../utils/functions');
+const { createOrUpdateData } = require('../utils/functions');
 const xlsxPopulate = require('xlsx-populate');
-const { getAllExpenses } = require('../services/financial');
+const {
+  getAllExpenses,
+  getExpensesByUserId,
+} = require('../services/financial');
+const { getAllUsers } = require('../services/user');
 
 module.exports = {
   async importExpensesData(req, res) {
@@ -19,7 +23,7 @@ module.exports = {
     const hasKeys = firstRow.every((item, index) => {
       return keys[index] === item;
     });
-    const users = getData('user.json');
+    const users = getAllUsers();
     const financial = getAllExpenses();
 
     try {
@@ -75,14 +79,28 @@ module.exports = {
      */
     const { userId } = req.params;
 
-    const expensesData = await getAllExpenses();
-
     try {
-      const expensesDataByUserId = expensesData.filter(
-        (item) => item.userId === userId
-      );
+      const expensesDataByUserId = await getExpensesByUserId(userId);
 
       return res.status(200).json(expensesDataByUserId);
+    } catch (error) {
+      console.log(error.message);
+      return res.status(400).json({ error: error.message });
+    }
+  },
+
+  async getExpensesFilteredByUserIdAndQuery(req, res) {
+    /**
+     * #swagger.tags = ['Financial']
+     * #swagger.description = 'Endpoint que filtra despesas por dia e id de usuário.'
+     */
+    const { userId } = req.params;
+    const { query } = req.query;
+
+    try {
+      const result = await getExpensesByUserId(userId);
+
+      return res.status(200).json(result);
     } catch (error) {
       console.log(error.message);
       return res.status(400).json({ error: error.message });

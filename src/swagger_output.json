@@ -195,6 +195,30 @@
           }
         }
       }
+    },
+    "/api/v1/filter-expenses/{userId}": {
+      "get": {
+        "tags": [
+          "Financial"
+        ],
+        "description": "Endpoint que filtra despesas por dia e id de usuário.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
     }
   },
   "definitions": {

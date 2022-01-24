@@ -9,6 +9,10 @@ financialRoutes.get(
   '/expenses/:userId',
   financialControllers.getExpensesByUserId
 );
+financialRoutes.get(
+  '/filter-expenses/:userId',
+  financialControllers.getExpensesFilteredByUserIdAndQuery
+);
 financialRoutes.post(
   '/expenses/:userId',
   upload.single('file'),

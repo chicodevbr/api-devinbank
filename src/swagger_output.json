@@ -149,6 +149,76 @@
           }
         }
       }
+    },
+    "/api/v1/expenses/{userId}": {
+      "get": {
+        "tags": [
+          "Financial"
+        ],
+        "description": "Endpoint que retorna todas as despesas por id de usuário.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Financial"
+        ],
+        "description": "Endpoint de importação de dados de despesas enviadas via xlsx.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/v1/filter-expenses/{userId}": {
+      "get": {
+        "tags": [
+          "Financial"
+        ],
+        "description": "Endpoint que filtra despesas por dia e id de usuário.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
     }
   },
   "definitions": {

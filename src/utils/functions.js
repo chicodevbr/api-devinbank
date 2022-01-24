@@ -1,15 +1,17 @@
 const fs = require('fs');
 
-function getData(file) {
-  const data = JSON.parse(fs.readFileSync('src/database/' + file, 'utf-8'));
-  return data;
-}
-
-function createOrUpdateData(fileName, data) {
-  fs.writeFileSync('./src/database/' + fileName, JSON.stringify(data));
-}
-
 module.exports = {
-  getData,
-  createOrUpdateData,
+  async getData(fileName) {
+    return JSON.parse(
+      await fs.readFileSync(`./src/database/${fileName}.json`),
+      'utf8'
+    );
+  },
+
+  async createOrUpdateData(fileName, data) {
+    await fs.writeFileSync(
+      `src/database/${fileName}.json`,
+      JSON.stringify(data)
+    );
+  },
 };

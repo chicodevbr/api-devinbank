@@ -150,17 +150,22 @@
         }
       }
     },
-    "/api/v1/expenses/{userId}": {
+    "/api/v1/filter-expenses/{userId}": {
       "get": {
         "tags": [
           "Financial"
         ],
-        "description": "Endpoint que retorna todas as despesas por id de usuário.",
+        "description": "Endpoint que filtra despesas id de usuário.",
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
+            "type": "string"
+          },
+          {
+            "name": "query",
+            "in": "query",
             "type": "string"
           }
         ],
@@ -172,7 +177,9 @@
             "description": "Bad Request"
           }
         }
-      },
+      }
+    },
+    "/api/v1/expenses/{userId}": {
       "post": {
         "tags": [
           "Financial"
@@ -196,12 +203,9 @@
         }
       }
     },
-    "/api/v1/filter-expenses/{userId}": {
+    "/api/v1/expenses-by-user/{userId}": {
       "get": {
-        "tags": [
-          "Financial"
-        ],
-        "description": "Endpoint que filtra despesas por dia e id de usuário.",
+        "description": "",
         "parameters": [
           {
             "name": "userId",
@@ -210,12 +214,32 @@
             "type": "string"
           }
         ],
+        "responses": {}
+      }
+    },
+    "/api/v1/expenses/{userId}/{expenseId}": {
+      "delete": {
+        "tags": [
+          "Financial"
+        ],
+        "description": "Endpoint para deletar endpoint por userId.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "expenseId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
           }
         }
       }
@@ -239,7 +263,7 @@
         }
       }
     },
-    "Transaction": {
+    "Expenses": {
       "type": "object",
       "properties": {
         "id": {

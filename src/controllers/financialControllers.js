@@ -74,7 +74,7 @@ module.exports = {
   async getExpensesByUserId(req, res) {
     /**
      * #swagger.tags = ['Financial']
-     * #swagger.description = 'Endpoint que retorna todas as despesas por id de usuário.'
+     * #swagger.description = 'Endpoint que filtra despesas id de usuário.'
      */
     const { userId } = req.params;
 
@@ -91,7 +91,7 @@ module.exports = {
   async getExpensesFilteredByUserIdAndQuery(req, res) {
     /**
      * #swagger.tags = ['Financial']
-     * #swagger.description = 'Endpoint que filtra despesas por dia e id de usuário.'
+     * #swagger.description = 'Endpoint que filtra despesas id de usuário.'
      */
     const { userId } = req.params;
     const { query } = req.query;
@@ -104,5 +104,13 @@ module.exports = {
       console.log(error.message);
       return res.status(400).json({ error: error.message });
     }
+  },
+
+  async delete(req, res) {
+    /**
+     * #swagger.tags = ['Financial']
+     * #swagger.description = 'Endpoint para deletar endpoint por userId.'
+     */
+    res.status(200).json('Despesa deletada.');
   },
 };

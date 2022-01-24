@@ -51,7 +51,7 @@ module.exports = {
     }
 
     const { name, email } = req.body;
-    const users = getData('user.json');
+    const users = getData('user');
 
     const hasUser = users.find((u) => u.email === email);
 

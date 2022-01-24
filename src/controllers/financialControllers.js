@@ -4,8 +4,8 @@ const xlsxPopulate = require('xlsx-populate');
 const {
   getAllExpenses,
   getExpensesByUserId,
+  getExpensesByUserAndQuery,
 } = require('../services/financial');
-const { getAllUsers } = require('../services/user');
 
 module.exports = {
   async importExpensesData(req, res) {
@@ -23,11 +23,10 @@ module.exports = {
     const hasKeys = firstRow.every((item, index) => {
       return keys[index] === item;
     });
-    const users = getAllUsers();
-    const financial = getAllExpenses();
 
     try {
-      const user = await users.find((item) => item.id === userId);
+      const financial = await getAllExpenses();
+      const user = await getExpensesByUserId(userId);
 
       if (!user) {
         throw new Error('Usuário não encontrado.');
@@ -61,7 +60,7 @@ module.exports = {
 
         financial.push(objUser);
       });
-      createOrUpdateData('financial.json', financial);
+      createOrUpdateData('financial', financial);
 
       return res
         .status(200)
@@ -98,7 +97,7 @@ module.exports = {
     const { query } = req.query;
 
     try {
-      const result = await getExpensesByUserId(userId);
+      const result = await getExpensesByUserAndQuery(userId, query);
 
       return res.status(200).json(result);
     } catch (error) {

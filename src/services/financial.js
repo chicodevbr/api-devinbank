@@ -1,4 +1,4 @@
-const { getData, createOrUpdateData } = require('../utils/functions');
+const { getData } = require('../utils/functions');
 
 const getAllExpenses = async () => {
   return await getData('financial');
@@ -30,6 +30,7 @@ const getExpensesByUserAndQuery = async (userId, query) => {
     ? expensesFilteredByQuery
     : expensesData.financialData;
 };
+
 module.exports = {
   getAllExpenses,
   getExpensesByUserId,

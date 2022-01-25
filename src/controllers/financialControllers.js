@@ -9,10 +9,16 @@ const {
 
 module.exports = {
   async importExpensesData(req, res) {
-    /**
-     * #swagger.tags = ['Financial']
-     * #swagger.description = 'Endpoint de importação de dados de despesas enviadas via xlsx.'
-     */
+    /*
+          #swagger.consumes = ['multipart/form-data']
+          #swagger.tags = ['Financial']   
+          #swagger.parameters['file'] = {
+              in: 'formData',
+              type: 'file',
+              required: 'true',
+              description: 'Some description...',
+              accept: '/',
+        } */
     const { userId } = req.params;
     const xlsxBuffer = req.file.buffer;
     const xlsxData = await xlsxPopulate.fromDataAsync(xlsxBuffer);
@@ -24,19 +30,15 @@ module.exports = {
       return keys[index] === item;
     });
 
+    if (!hasKeys || firstRow.length != 4) {
+      throw new Error('Todas as colunas devem estar preeencidas.');
+    }
+
+    const filterRows = rows.filter((_, index) => index != 0);
+
     try {
       const financial = await getAllExpenses();
-      const user = await getExpensesByUserId(userId);
 
-      if (!user) {
-        throw new Error('Usuário não encontrado.');
-      }
-
-      if (!hasKeys || firstRow.length != 4) {
-        throw new Error('Todas as colunas devem estar preeencidas.');
-      }
-
-      const filterRows = rows.filter((_, index) => index != 0);
       filterRows.map((row) => {
         const result = row.map((cell, index) => {
           return {
@@ -44,31 +46,23 @@ module.exports = {
           };
         });
 
-        const objUser = Object.assign({
-          id: uuidv4(),
-          userId: userId,
-          financialData: [],
-        });
-
         const objExpenses = Object.assign(
-          { expenseId: uuidv4() },
+          { expenseId: uuidv4(), userId: userId },
 
           ...result
         );
 
-        objUser.financialData.push(objExpenses);
-
-        financial.push(objUser);
+        financial.push(objExpenses);
       });
       createOrUpdateData('financial', financial);
-
-      return res
-        .status(200)
-        .send({ message: 'Despesas cadastradas com sucesso.' });
     } catch (error) {
       console.log(error.message);
       return res.status(400).json({ error: error.message });
     }
+
+    return res
+      .status(200)
+      .send({ message: 'Despesas cadastradas com sucesso.' });
   },
 
   async getExpensesByUserId(req, res) {
@@ -81,7 +75,7 @@ module.exports = {
     try {
       const expensesDataByUserId = await getExpensesByUserId(userId);
 
-      return res.status(200).json(expensesDataByUserId);
+      return res.status(200).json({ expenses: expensesDataByUserId });
     } catch (error) {
       console.log(error.message);
       return res.status(400).json({ error: error.message });

@@ -32,14 +32,13 @@ const getWithFinancialData = async (id) => {
 
   const expensesByUserId = await getExpensesByUserId(id);
 
+  console.log(expensesByUserId);
+
   const objUser = Object.assign({
     userId: user.id,
     name: user.name,
     financialData: expensesByUserId,
   });
-
-  const date = xlsxPopulate.numberToDate(44609);
-  console.log(date);
 
   return objUser;
 };

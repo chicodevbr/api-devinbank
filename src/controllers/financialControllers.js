@@ -4,7 +4,6 @@ const xlsxPopulate = require('xlsx-populate');
 const { getUserById } = require('../services/user');
 const {
   getAllExpenses,
-  getExpensesByUserId,
   getExpensesByUserAndQuery,
   findExpenseById,
   removeExpenses,
@@ -28,6 +27,7 @@ module.exports = {
     const xlsxData = await xlsxPopulate.fromDataAsync(xlsxBuffer);
 
     const rows = xlsxData.sheet(0).usedRange().value();
+
     const [firstRow] = rows;
     const keys = ['name', 'date', 'typeOfExpenses', 'amount'];
     const hasKeys = firstRow.every((item, index) => {
@@ -35,7 +35,7 @@ module.exports = {
     });
 
     if (!hasKeys || firstRow.length != 4) {
-      throw new Error('Todas as colunas devem estar preeencidas.');
+      throw new Error('Todas as colunas devem estar preeenchidas.');
     }
 
     const filterRows = rows.filter((_, index) => index != 0);
@@ -51,12 +51,20 @@ module.exports = {
         });
 
         const objExpenses = Object.assign(
-          { expenseId: uuidv4(), userId: userId },
+          {
+            expenseId: uuidv4(),
+            userId: userId,
+          },
 
           ...result
         );
 
-        financial.push(objExpenses);
+        const objDate = {
+          ...objExpenses,
+          date: xlsxPopulate.numberToDate(objExpenses.date),
+        };
+
+        financial.push(objDate);
       });
       createOrUpdateData('financial', financial);
     } catch (error) {

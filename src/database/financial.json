@@ -6,5 +6,45 @@
     "date": 44614,
     "typeOfExpenses": "transporte",
     "amount": 200
+  },
+  {
+    "expenseId": "fa00ff61-d745-4a00-a11e-f46ec5751889",
+    "userId": "d87fc4e2-a904-42b8-9286-be440739ba91",
+    "name": "gasolina",
+    "date": 44614,
+    "typeOfExpenses": "transporte",
+    "amount": 200
+  },
+  {
+    "expenseId": "2e7bea90-92d3-4f16-8bd0-5383f336ebaa",
+    "userId": "d87fc4e2-a904-42b8-9286-be440739ba91",
+    "name": "faculdade",
+    "date": 44609,
+    "typeOfExpenses": "educação",
+    "amount": 700
+  },
+  {
+    "expenseId": "26ed9002-d912-46b5-aea1-e09b51b6a774",
+    "userId": "d87fc4e2-a904-42b8-9286-be440739ba91",
+    "name": "mercado",
+    "date": 44608,
+    "typeOfExpenses": "alimentacao",
+    "amount": 1200
+  },
+  {
+    "expenseId": "25c97629-9397-4e30-915a-fc60e34d6976",
+    "userId": "d87fc4e2-a904-42b8-9286-be440739ba91",
+    "name": "netflix",
+    "date": 44607,
+    "typeOfExpenses": "diversao",
+    "amount": 33
+  },
+  {
+    "expenseId": "4497bf99-7002-429e-97b9-fecd4dbb4972",
+    "userId": "d87fc4e2-a904-42b8-9286-be440739ba91",
+    "name": "museu",
+    "date": 44609,
+    "typeOfExpenses": "cultura",
+    "amount": 649.9
   }
 ]

@@ -1,4 +1,6 @@
 const { getData } = require('../utils/functions');
+const { getUserById } = require('../services/user');
+const { v4: uuidv4 } = require('uuid');
 
 const getAllExpenses = async () => {
   return await getData('financial');
@@ -22,6 +24,22 @@ const findExpenseById = async (expenseId) => {
 const removeExpenses = async (expenseId) => {
   const data = await getData('financial');
   return await data.filter((item) => item.expenseId !== expenseId);
+};
+
+const getWithFinancialData = async (id) => {
+  const user = await getUserById(id);
+
+  const expensesByUserId = await getExpensesByUserId(id);
+
+  const objUser = Object.assign({
+    id: uuidv4(),
+    userId: user.id,
+    name: user.name,
+    financialData: expensesByUserId,
+  });
+  console.log(objUser);
+
+  return objUser;
 };
 
 const getExpensesByUserAndQuery = async (userId, query) => {
@@ -53,4 +71,5 @@ module.exports = {
   getExpensesById,
   removeExpenses,
   findExpenseById,
+  getWithFinancialData,
 };

@@ -182,7 +182,7 @@
         "tags": [
           "Financial"
         ],
-        "description": "Endpoint que filtra despesas por id de usuário e tipo de despesa via query.",
+        "description": "Endpoint que filtra despesas id de usuário.",
         "parameters": [
           {
             "name": "userId",

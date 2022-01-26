@@ -14,4 +14,8 @@ module.exports = {
       JSON.stringify(data)
     );
   },
+
+  formatDate(date) {
+    return date.replace(/(\d+[/])(\d+[/])/, '$2$1');
+  },
 };

@@ -1,10 +1,13 @@
 const { v4: uuidv4 } = require('uuid');
 const { createOrUpdateData } = require('../utils/functions');
 const xlsxPopulate = require('xlsx-populate');
+const { getUserById } = require('../services/user');
 const {
   getAllExpenses,
   getExpensesByUserId,
   getExpensesByUserAndQuery,
+  findExpenseById,
+  removeExpenses,
 } = require('../services/financial');
 
 module.exports = {
@@ -105,6 +108,22 @@ module.exports = {
      * #swagger.tags = ['Financial']
      * #swagger.description = 'Endpoint para deletar endpoint por userId.'
      */
+
+    const { userId, expenseId } = req.params;
+
+    const hasUser = await getUserById(userId);
+    const hasExpense = await findExpenseById(expenseId);
+
+    if (!hasUser) {
+      return res.status(400).send({ message: 'Usuário não encontrado' });
+    }
+
+    if (!hasExpense) {
+      return res.status(400).send({ message: 'Despesa não encontrada' });
+    }
+
+    const removeExpenseData = await removeExpenses(expenseId);
+
     res.status(200).json('Despesa deletada.');
   },
 };

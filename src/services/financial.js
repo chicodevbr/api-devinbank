@@ -1,4 +1,7 @@
 const { getData } = require('../utils/functions');
+const { getUserById } = require('../services/user');
+const xlsxPopulate = require('xlsx-populate');
+//const { v4: uuidv4 } = require('uuid');
 
 const getAllExpenses = async () => {
   return await getData('financial');
@@ -24,26 +27,40 @@ const removeExpenses = async (expenseId) => {
   return await data.filter((item) => item.expenseId !== expenseId);
 };
 
-const getExpensesByUserAndQuery = async (userId, query) => {
-  const expensesData = await getExpensesByUserId(userId);
-  const expensesFilteredByQuery = expensesData.financialData((item) => {
-    const filteredByQuery = Object.keys(query).filter((key) => {
-      return (
-        query[key] &&
-        item[key] &&
-        String(
-          item[key]
-            .toLocaleLowerCase()
-            .includes(String(query[key].toLocaleLowerCase()))
-        )
-      );
-    });
-    return filteredByQuery.length > 0;
+const getWithFinancialData = async (id) => {
+  const user = await getUserById(id);
+
+  const expensesByUserId = await getExpensesByUserId(id);
+
+  console.log(expensesByUserId);
+
+  const objUser = Object.assign({
+    userId: user.id,
+    name: user.name,
+    financialData: expensesByUserId,
   });
 
-  return expensesFilteredByQuery.length > 0
-    ? expensesFilteredByQuery
-    : expensesData.financialData;
+  return objUser;
+};
+
+const getExpensesFilteredByQuery = async (userId, query) => {
+  const expensesByUserId = await getExpensesByUserId(userId);
+
+  return await expensesByUserId.filter((item) => item.typeOfExpenses === query);
+};
+
+const getExpensesByUserAndQuery = async (userId, query) => {
+  const user = await getUserById(userId);
+
+  const expenseDataByUserId = await getExpensesFilteredByQuery(userId, query);
+
+  const objUser = Object.assign({
+    userId: user.id,
+    name: user.name,
+    financialData: expenseDataByUserId,
+  });
+
+  return objUser;
 };
 
 module.exports = {
@@ -53,4 +70,6 @@ module.exports = {
   getExpensesById,
   removeExpenses,
   findExpenseById,
+  getWithFinancialData,
+  getExpensesFilteredByQuery,
 };

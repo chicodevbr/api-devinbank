@@ -153,12 +153,36 @@
         }
       }
     },
+    "/api/v1/expenses-by-user/{userId}": {
+      "get": {
+        "tags": [
+          "Financial"
+        ],
+        "description": "Endpoint que filtra despesas por id de usuário.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
     "/api/v1/filter-expenses/{userId}": {
       "get": {
         "tags": [
           "Financial"
         ],
-        "description": "Endpoint que filtra despesas id de usuário.",
+        "description": "Endpoint que filtra despesas por id de usuário e tipo de despesa via query.",
         "parameters": [
           {
             "name": "userId",
@@ -210,22 +234,11 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
-      }
-    },
-    "/api/v1/expenses-by-user/{userId}": {
-      "get": {
-        "description": "",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {}
       }
     },
     "/api/v1/expenses/{userId}/{expenseId}": {
@@ -251,6 +264,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }

@@ -191,7 +191,17 @@
             "type": "string"
           },
           {
-            "name": "query",
+            "name": "search",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "start",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "end",
             "in": "query",
             "type": "string"
           }

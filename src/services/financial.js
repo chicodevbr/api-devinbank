@@ -1,6 +1,7 @@
 const { getData } = require('../utils/functions');
 const { getUserById } = require('../services/user');
-const { v4: uuidv4 } = require('uuid');
+const xlsxPopulate = require('xlsx-populate');
+//const { v4: uuidv4 } = require('uuid');
 
 const getAllExpenses = async () => {
   return await getData('financial');
@@ -32,36 +33,35 @@ const getWithFinancialData = async (id) => {
   const expensesByUserId = await getExpensesByUserId(id);
 
   const objUser = Object.assign({
-    id: uuidv4(),
     userId: user.id,
     name: user.name,
     financialData: expensesByUserId,
   });
-  console.log(objUser);
+
+  const date = xlsxPopulate.numberToDate(44609);
+  console.log(date);
 
   return objUser;
 };
 
+const getExpensesFilteredByQuery = async (userId, query) => {
+  const expensesByUserId = await getExpensesByUserId(userId);
+
+  return await expensesByUserId.filter((item) => item.typeOfExpenses === query);
+};
+
 const getExpensesByUserAndQuery = async (userId, query) => {
-  const expensesData = await getExpensesByUserId(userId);
-  const expensesFilteredByQuery = expensesData.financialData((item) => {
-    const filteredByQuery = Object.keys(query).filter((key) => {
-      return (
-        query[key] &&
-        item[key] &&
-        String(
-          item[key]
-            .toLocaleLowerCase()
-            .includes(String(query[key].toLocaleLowerCase()))
-        )
-      );
-    });
-    return filteredByQuery.length > 0;
+  const user = await getUserById(userId);
+
+  const expenseDataByUserId = await getExpensesFilteredByQuery(userId, query);
+
+  const objUser = Object.assign({
+    userId: user.id,
+    name: user.name,
+    financialData: expenseDataByUserId,
   });
 
-  return expensesFilteredByQuery.length > 0
-    ? expensesFilteredByQuery
-    : expensesData.financialData;
+  return objUser;
 };
 
 module.exports = {
@@ -72,4 +72,5 @@ module.exports = {
   removeExpenses,
   findExpenseById,
   getWithFinancialData,
+  getExpensesFilteredByQuery,
 };

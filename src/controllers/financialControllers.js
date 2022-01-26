@@ -77,9 +77,9 @@ module.exports = {
     const { userId } = req.params;
 
     try {
-      const expensesDataByUserId = await getExpensesByUserId(userId);
+      const result = await getWithFinancialData(userId);
 
-      return res.status(200).json({ expenses: expensesDataByUserId });
+      return res.status(200).json(result);
     } catch (error) {
       console.log(error.message);
       return res.status(400).json({ error: error.message });
@@ -94,10 +94,12 @@ module.exports = {
     const { userId } = req.params;
     const { query } = req.query;
 
-    try {
-      const result = await getWithFinancialData(userId);
+    console.log(query);
 
-      return res.status(200).json(result);
+    try {
+      const data = await getExpensesByUserAndQuery(userId, query);
+
+      return res.status(200).json(data);
     } catch (error) {
       console.log(error.message);
       return res.status(400).json({ error: error.message });

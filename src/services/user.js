@@ -1,4 +1,4 @@
-const { getData, createOrUpdateData } = require('../utils/functions');
+const { getData } = require('../utils/functions');
 
 const getAllUsers = async () => {
   return await getData('user');

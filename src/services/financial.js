@@ -1,4 +1,4 @@
-const { getData, createOrUpdateData } = require('../utils/functions');
+const { getData } = require('../utils/functions');
 
 const getAllExpenses = async () => {
   return await getData('financial');
@@ -7,6 +7,21 @@ const getAllExpenses = async () => {
 const getExpensesByUserId = async (userId) => {
   const data = await getData('financial');
   return await data.filter((item) => item.userId === userId);
+};
+
+const getExpensesById = async (expenseId) => {
+  const data = await getData('financial');
+  return await data.filter((item) => item.expenseId === expenseId);
+};
+
+const findExpenseById = async (expenseId) => {
+  const data = await getData('financial');
+  return await data.find((item) => item.expenseId === expenseId);
+};
+
+const removeExpenses = async (expenseId) => {
+  const data = await getData('financial');
+  return await data.filter((item) => item.expenseId !== expenseId);
 };
 
 const getExpensesByUserAndQuery = async (userId, query) => {
@@ -30,8 +45,12 @@ const getExpensesByUserAndQuery = async (userId, query) => {
     ? expensesFilteredByQuery
     : expensesData.financialData;
 };
+
 module.exports = {
   getAllExpenses,
   getExpensesByUserId,
   getExpensesByUserAndQuery,
+  getExpensesById,
+  removeExpenses,
+  findExpenseById,
 };

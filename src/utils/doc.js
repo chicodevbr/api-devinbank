@@ -30,7 +30,7 @@ const doc = {
       name: 'Jhon Doe',
       email: 'email@email.com',
     },
-    Transaction: {
+    Expenses: {
       id: 1,
       userId: 2,
       financialData: [

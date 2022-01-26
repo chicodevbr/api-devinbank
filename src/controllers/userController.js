@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const { validationResult } = require('express-validator');
-const { getData, createOrUpdateData } = require('../utils/functions');
+const { getAllUsers, getUserById } = require('../services/user');
+const { createOrUpdateData } = require('../utils/functions');
 
 //const userService = require('../services/userService');
 
@@ -10,9 +11,13 @@ module.exports = {
      * #swagger.tags = ['User']
      * #swagger.description = 'Endpoint que retorna lista com todos os usuários cadastrados.'
      */
-    const users = getData('user.json');
-
-    return res.status(200).json({ users: users });
+    try {
+      const users = await getAllUsers();
+      return res.status(200).json({ users: users });
+    } catch (error) {
+      console.log(error.message);
+      return res.status(400).json({ error: error.message });
+    }
   },
 
   async indexOne(req, res) {
@@ -21,10 +26,9 @@ module.exports = {
      * #swagger.description = 'Endpoint que pesquisa e devolve usuário por ID.'
      */
     const { id } = req.params;
-    const users = getData('user.json');
 
     try {
-      const user = await users.find((item) => item.id === id);
+      const user = await getUserById(id);
 
       if (!user) {
         throw new Error('Usuário não encontrado.');
@@ -51,7 +55,7 @@ module.exports = {
     }
 
     const { name, email } = req.body;
-    const users = getData('user');
+    const users = getAllUsers();
 
     const hasUser = users.find((u) => u.email === email);
 
@@ -69,7 +73,7 @@ module.exports = {
         email,
       },
     ];
-    createOrUpdateData('user.json', newUser);
+    createOrUpdateData('user', newUser);
     return res.status(201).send({ message: 'Usuário cadastrado com sucesso.' });
   },
 
@@ -93,7 +97,7 @@ module.exports = {
       });
     }
     const { id } = req.params;
-    const users = await getData('user.json');
+    const users = await getAllUsers();
 
     const data = req.body;
 
@@ -114,7 +118,7 @@ module.exports = {
         }
       });
 
-      createOrUpdateData('user.json', updateUser);
+      createOrUpdateData('user', updateUser);
 
       return res
         .status(200)

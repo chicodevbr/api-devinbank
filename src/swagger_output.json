@@ -55,6 +55,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
@@ -150,39 +153,22 @@
         }
       }
     },
-    "/api/v1/expenses/{userId}": {
+    "/api/v1/filter-expenses/{userId}": {
       "get": {
         "tags": [
           "Financial"
         ],
-        "description": "Endpoint que retorna todas as despesas por id de usuário.",
+        "description": "Endpoint que filtra despesas id de usuário.",
         "parameters": [
           {
             "name": "userId",
             "in": "path",
             "required": true,
             "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
           },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Financial"
-        ],
-        "description": "Endpoint de importação de dados de despesas enviadas via xlsx.",
-        "parameters": [
           {
-            "name": "userId",
-            "in": "path",
-            "required": true,
+            "name": "query",
+            "in": "query",
             "type": "string"
           }
         ],
@@ -196,12 +182,41 @@
         }
       }
     },
-    "/api/v1/filter-expenses/{userId}": {
-      "get": {
+    "/api/v1/expenses/{userId}": {
+      "post": {
         "tags": [
           "Financial"
         ],
-        "description": "Endpoint que filtra despesas por dia e id de usuário.",
+        "description": "",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "type": "file",
+            "required": true,
+            "description": "Some description...",
+            "accept": "/"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/v1/expenses-by-user/{userId}": {
+      "get": {
+        "description": "",
         "parameters": [
           {
             "name": "userId",
@@ -210,12 +225,32 @@
             "type": "string"
           }
         ],
+        "responses": {}
+      }
+    },
+    "/api/v1/expenses/{userId}/{expenseId}": {
+      "delete": {
+        "tags": [
+          "Financial"
+        ],
+        "description": "Endpoint para deletar endpoint por userId.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "expenseId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
           }
         }
       }
@@ -239,7 +274,7 @@
         }
       }
     },
-    "Transaction": {
+    "Expenses": {
       "type": "object",
       "properties": {
         "id": {

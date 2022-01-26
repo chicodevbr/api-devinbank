@@ -61,7 +61,9 @@ module.exports = {
 
         const objDate = {
           ...objExpenses,
-          date: xlsxPopulate.numberToDate(objExpenses.date),
+          date: new Date(
+            xlsxPopulate.numberToDate(objExpenses.date)
+          ).toLocaleDateString(),
         };
 
         financial.push(objDate);

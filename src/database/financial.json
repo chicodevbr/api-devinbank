@@ -6,13 +6,5 @@
     "date": 44614,
     "typeOfExpenses": "transporte",
     "amount": 200
-  },
-  {
-    "expenseId": "79c8d416-d606-4e40-81a2-81147c290e2e",
-    "userId": "0cd5e7c1-6f98-4aa1-a69b-ec3ed3aad017",
-    "name": "faculdade",
-    "date": 44609,
-    "typeOfExpenses": "educação",
-    "amount": 700
   }
 ]

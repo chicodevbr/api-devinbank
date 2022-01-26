@@ -113,17 +113,22 @@ module.exports = {
 
     const hasUser = await getUserById(userId);
     const hasExpense = await findExpenseById(expenseId);
+    try {
+      if (!hasUser) {
+        return res.status(400).send({ message: 'Usuário não encontrado' });
+      }
 
-    if (!hasUser) {
-      return res.status(400).send({ message: 'Usuário não encontrado' });
+      if (!hasExpense) {
+        return res.status(400).send({ message: 'Despesa não encontrada' });
+      }
+
+      const removeExpenseData = await removeExpenses(expenseId);
+
+      createOrUpdateData('financial', removeExpenseData);
+      res.status(200).json('Despesa deletada.');
+    } catch (error) {
+      console.log(error.message);
+      return res.status(400).json({ error: error.message });
     }
-
-    if (!hasExpense) {
-      return res.status(400).send({ message: 'Despesa não encontrada' });
-    }
-
-    const removeExpenseData = await removeExpenses(expenseId);
-
-    res.status(200).json('Despesa deletada.');
   },
 };

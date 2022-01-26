@@ -1,4 +1,4 @@
-const { getData } = require('../utils/functions');
+const { getData, formatDate } = require('../utils/functions');
 const { getUserById } = require('../services/user');
 const xlsxPopulate = require('xlsx-populate');
 //const { v4: uuidv4 } = require('uuid');
@@ -63,6 +63,14 @@ const getExpensesByUserAndQuery = async (userId, query) => {
   return objUser;
 };
 
+const getTotalAmountExpensesByUser = async (start, end, data) => {
+  const startDate = new Date(formatDate(start)).getTime();
+  const endDate = new Date(formatDate(end)).getTime();
+
+  console.log(startDate);
+  console.log(endDate);
+};
+
 module.exports = {
   getAllExpenses,
   getExpensesByUserId,
@@ -72,4 +80,5 @@ module.exports = {
   findExpenseById,
   getWithFinancialData,
   getExpensesFilteredByQuery,
+  getTotalAmountExpensesByUser,
 };

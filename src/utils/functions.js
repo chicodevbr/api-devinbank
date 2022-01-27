@@ -23,4 +23,8 @@ module.exports = {
     date = date.replace(/(\d+[/])(\d+[/])/, '$2$1');
     return new Date(date).getTime();
   },
+
+  sumValues(total, item) {
+    return total + item.amount;
+  },
 };

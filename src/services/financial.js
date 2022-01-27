@@ -1,4 +1,4 @@
-const { getData } = require('../utils/functions');
+const { getData, sumValues, getDateToTime } = require('../utils/functions');
 const { getUserById } = require('../services/user');
 const xlsxPopulate = require('xlsx-populate');
 //const { v4: uuidv4 } = require('uuid');
@@ -32,8 +32,6 @@ const getWithFinancialData = async (id) => {
 
   const expensesByUserId = await getExpensesByUserId(id);
 
-  console.log(expensesByUserId);
-
   const objUser = Object.assign({
     userId: user.id,
     name: user.name,
@@ -63,6 +61,50 @@ const getExpensesByUserAndQuery = async (userId, query) => {
   return objUser;
 };
 
+const getTotalAmountExpensesByUser = async (userId, search, start, end) => {
+  if (!search && !start && !end) {
+    const data = await getExpensesByUserId(userId);
+
+    const total = data.reduce(sumValues, 0);
+
+    return { ...data, total: total };
+  }
+
+  if (!start && !end) {
+    const data = await getExpensesFilteredByQuery(userId, search);
+
+    const total = data.reduce(sumValues, 0);
+
+    return { ...data, total: total };
+  }
+
+  const startDate = getDateToTime(start);
+  const endDate = getDateToTime(end);
+
+  if (!search) {
+    const data = await getExpensesByUserId(userId);
+
+    const dataFiltered = await data.filter(
+      (expense) =>
+        getDateToTime(expense.date) >= startDate &&
+        getDateToTime(expense.date) <= endDate
+    );
+    const total = dataFiltered.reduce(sumValues, 0);
+
+    return { ...dataFiltered, total: total };
+  } else {
+    const data = await getExpensesFilteredByQuery(userId, search);
+    const dataFiltered = await data.filter(
+      (expense) =>
+        getDateToTime(expense.date) >= startDate &&
+        getDateToTime(expense.date) <= endDate
+    );
+    const total = dataFiltered.reduce(sumValues, 0);
+
+    return { ...dataFiltered, total: total };
+  }
+};
+
 module.exports = {
   getAllExpenses,
   getExpensesByUserId,
@@ -72,4 +114,5 @@ module.exports = {
   findExpenseById,
   getWithFinancialData,
   getExpensesFilteredByQuery,
+  getTotalAmountExpensesByUser,
 };

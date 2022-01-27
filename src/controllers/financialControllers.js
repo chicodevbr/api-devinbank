@@ -8,6 +8,7 @@ const {
   findExpenseById,
   removeExpenses,
   getWithFinancialData,
+  getTotalAmountExpensesByUser,
 } = require('../services/financial');
 
 module.exports = {
@@ -102,12 +103,15 @@ module.exports = {
      * #swagger.description = 'Endpoint que filtra despesas id de usuário.'
      */
     const { userId } = req.params;
-    const { query } = req.query;
-
-    console.log(query);
+    const { search, start, end } = req.query;
 
     try {
-      const data = await getExpensesByUserAndQuery(userId, query);
+      const data = await getTotalAmountExpensesByUser(
+        userId,
+        search,
+        start,
+        end
+      );
 
       return res.status(200).json(data);
     } catch (error) {

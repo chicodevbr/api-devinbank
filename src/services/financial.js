@@ -1,4 +1,9 @@
-const { getData, sumValues, getDateToTime } = require('../utils/functions');
+const {
+  getData,
+  sumValues,
+  getDateToTime,
+  getTimeStartDaysAndEndDays,
+} = require('../utils/functions');
 const { getUserById } = require('../services/user');
 const xlsxPopulate = require('xlsx-populate');
 //const { v4: uuidv4 } = require('uuid');
@@ -62,6 +67,12 @@ const getExpensesByUserAndQuery = async (userId, query) => {
 };
 
 const getTotalAmountExpensesByUser = async (userId, search, start, end) => {
+  const today = new Date();
+  const days = getTimeStartDaysAndEndDays(today);
+
+  console.log('entrada', days.start);
+  console.log('saida', days.end);
+
   if (!search && !start && !end) {
     const data = await getExpensesByUserId(userId);
 

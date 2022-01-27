@@ -18,4 +18,9 @@ module.exports = {
   formatDate(date) {
     return date.replace(/(\d+[/])(\d+[/])/, '$2$1');
   },
+
+  getDateToTime(date) {
+    date = date.replace(/(\d+[/])(\d+[/])/, '$2$1');
+    return new Date(date).getTime();
+  },
 };

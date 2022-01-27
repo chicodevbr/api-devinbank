@@ -4,7 +4,6 @@ const xlsxPopulate = require('xlsx-populate');
 const { getUserById } = require('../services/user');
 const {
   getAllExpenses,
-  getExpensesByUserAndQuery,
   findExpenseById,
   removeExpenses,
   getWithFinancialData,
@@ -83,7 +82,7 @@ module.exports = {
   async getExpensesByUserId(req, res) {
     /**
      * #swagger.tags = ['Financial']
-     * #swagger.description = 'Endpoint que filtra despesas por id de usuário.'
+     * #swagger.description = 'Endpoint que devolve todas as despesas por usuário.'
      */
     const { userId } = req.params;
 
@@ -100,7 +99,7 @@ module.exports = {
   async getExpensesFilteredByUserIdAndQuery(req, res) {
     /**
      * #swagger.tags = ['Financial']
-     * #swagger.description = 'Endpoint que filtra despesas id de usuário.'
+     * #swagger.description = 'Endpoint que filtra despesas, com soma total dos gastos, por usuário(obrigatório o userId), range de datas(opcional) e por tipo de despesa(opcional).'
      */
     const { userId } = req.params;
     const { search, start, end } = req.query;

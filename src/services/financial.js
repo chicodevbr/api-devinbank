@@ -1,4 +1,4 @@
-const { getData, formatDate } = require('../utils/functions');
+const { getData, formatDate, getDateToTime } = require('../utils/functions');
 const { getUserById } = require('../services/user');
 const xlsxPopulate = require('xlsx-populate');
 //const { v4: uuidv4 } = require('uuid');
@@ -32,8 +32,6 @@ const getWithFinancialData = async (id) => {
 
   const expensesByUserId = await getExpensesByUserId(id);
 
-  console.log(expensesByUserId);
-
   const objUser = Object.assign({
     userId: user.id,
     name: user.name,
@@ -63,12 +61,28 @@ const getExpensesByUserAndQuery = async (userId, query) => {
   return objUser;
 };
 
-const getTotalAmountExpensesByUser = async (start, end, data) => {
-  const startDate = new Date(formatDate(start)).getTime();
-  const endDate = new Date(formatDate(end)).getTime();
+const getTotalAmountExpensesByUser = async (userId, search, start, end) => {
+  const startDate = getDateToTime(start);
+  const endDate = getDateToTime(end);
 
-  console.log(startDate);
-  console.log(endDate);
+  if (!search) {
+    const data = await getExpensesByUserId(userId);
+
+    const dataFiltered = await data.filter(
+      (expense) =>
+        getDateToTime(expense.date) >= startDate &&
+        getDateToTime(expense.date) <= endDate
+    );
+    return dataFiltered;
+  } else {
+    const data = await getExpensesFilteredByQuery(userId, search);
+    const dataFiltered = await data.filter(
+      (expense) =>
+        getDateToTime(expense.date) >= startDate &&
+        getDateToTime(expense.date) <= endDate
+    );
+    return dataFiltered;
+  }
 };
 
 module.exports = {

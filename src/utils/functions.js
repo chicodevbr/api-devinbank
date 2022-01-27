@@ -27,37 +27,4 @@ module.exports = {
   sumValues(total, item) {
     return total + item.amount;
   },
-
-  getTimeStartDaysAndEndDays(today) {
-    const actualMonth = today.getMonth();
-    const actualYear = new Date().getFullYear();
-
-    const months = [
-      'janeiro',
-      'fevereiro',
-      'março',
-      'abril',
-      'maio',
-      'junho',
-      'julho',
-      'agosto',
-      'setembro',
-      'outubro',
-      'novembro',
-      'dezembro',
-    ];
-
-    const inputDays = [];
-    const outputDays = [];
-
-    months.map(() => {
-      inputDays.push(new Date(actualYear, actualMonth, 1).getTime());
-      outputDays.push(new Date(actualYear, actualMonth + 1, 0).getTime());
-    });
-
-    return {
-      start: inputDays,
-      end: outputDays,
-    };
-  },
 };

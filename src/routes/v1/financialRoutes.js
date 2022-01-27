@@ -6,13 +6,13 @@ const financialControllers = require('../../controllers/financialControllers');
 const upload = multer();
 
 financialRoutes.get(
-  '/expenses-by-user/:userId',
-  financialControllers.getExpensesByUserId
+  '/expenses/:userId',
+  financialControllers.getExpensesFilteredByUserIdAndQuery
 );
 
 financialRoutes.get(
-  '/filter-expenses/:userId',
-  financialControllers.getExpensesFilteredByUserIdAndQuery
+  '/expenses-by-user/:userId',
+  financialControllers.getExpensesByUserId
 );
 
 financialRoutes.post(

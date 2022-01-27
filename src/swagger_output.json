@@ -153,36 +153,12 @@
         }
       }
     },
-    "/api/v1/expenses-by-user/{userId}": {
+    "/api/v1/expenses/{userId}": {
       "get": {
         "tags": [
           "Financial"
         ],
-        "description": "Endpoint que filtra despesas por id de usuário.",
-        "parameters": [
-          {
-            "name": "userId",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      }
-    },
-    "/api/v1/filter-expenses/{userId}": {
-      "get": {
-        "tags": [
-          "Financial"
-        ],
-        "description": "Endpoint que filtra despesas id de usuário.",
+        "description": "Endpoint que filtra despesas, com soma total dos gastos, por usuário(obrigatório o userId), range de datas(opcional) e por tipo de despesa(opcional).",
         "parameters": [
           {
             "name": "userId",
@@ -214,9 +190,7 @@
             "description": "Bad Request"
           }
         }
-      }
-    },
-    "/api/v1/expenses/{userId}": {
+      },
       "post": {
         "tags": [
           "Financial"
@@ -239,6 +213,30 @@
             "required": true,
             "description": "Some description...",
             "accept": "/"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/v1/expenses-by-user/{userId}": {
+      "get": {
+        "tags": [
+          "Financial"
+        ],
+        "description": "Endpoint que devolve todas as despesas por usuário.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
         ],
         "responses": {

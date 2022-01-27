@@ -1,4 +1,4 @@
-const { getData, formatDate, getDateToTime } = require('../utils/functions');
+const { getData, sumValues, getDateToTime } = require('../utils/functions');
 const { getUserById } = require('../services/user');
 const xlsxPopulate = require('xlsx-populate');
 //const { v4: uuidv4 } = require('uuid');
@@ -73,7 +73,9 @@ const getTotalAmountExpensesByUser = async (userId, search, start, end) => {
         getDateToTime(expense.date) >= startDate &&
         getDateToTime(expense.date) <= endDate
     );
-    return dataFiltered;
+    const total = dataFiltered.reduce(sumValues, 0);
+
+    return { ...dataFiltered, total: total };
   } else {
     const data = await getExpensesFilteredByQuery(userId, search);
     const dataFiltered = await data.filter(
@@ -81,7 +83,9 @@ const getTotalAmountExpensesByUser = async (userId, search, start, end) => {
         getDateToTime(expense.date) >= startDate &&
         getDateToTime(expense.date) <= endDate
     );
-    return dataFiltered;
+    const total = dataFiltered.reduce(sumValues, 0);
+
+    return { ...dataFiltered, total: total };
   }
 };
 

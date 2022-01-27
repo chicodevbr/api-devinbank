@@ -70,6 +70,14 @@ const getTotalAmountExpensesByUser = async (userId, search, start, end) => {
     return { ...data, total: total };
   }
 
+  if (!start && !end) {
+    const data = await getExpensesFilteredByQuery(userId, search);
+
+    const total = data.reduce(sumValues, 0);
+
+    return { ...data, total: total };
+  }
+
   const startDate = getDateToTime(start);
   const endDate = getDateToTime(end);
 

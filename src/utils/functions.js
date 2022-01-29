@@ -1,4 +1,5 @@
 const fs = require('fs');
+const eachMonthOfInterval = require('date-fns/eachMonthOfInterval');
 
 module.exports = {
   async getData(fileName) {
@@ -26,5 +27,26 @@ module.exports = {
 
   sumValues(total, item) {
     return total + item.amount;
+  },
+
+  getDateRange(start, end) {
+    const today = new Date();
+    const year = new Date().getFullYear();
+    const firstDayOfMonth = new Date(year, today.getMonth() - 1, 1);
+
+    const startDays = eachMonthOfInterval({
+      start: new Date(start),
+      end: new Date(today),
+    });
+
+    const endDays = eachMonthOfInterval({
+      start: new Date(end),
+      end: new Date(firstDayOfMonth),
+    });
+
+    return {
+      startDays: startDays,
+      endDays: endDays,
+    };
   },
 };

@@ -34,13 +34,12 @@ module.exports = {
       return keys[index] === item;
     });
 
-    if (!hasKeys || firstRow.length != 4) {
-      throw new Error('Todas as colunas devem estar preeenchidas.');
-    }
-
-    const filterRows = rows.filter((_, index) => index != 0);
-
     try {
+      if (!hasKeys || firstRow.length != 4) {
+        throw new Error('Todas as colunas devem estar preeenchidas.');
+      }
+
+      const filterRows = rows.filter((_, index) => index != 0);
       const financial = await getAllExpenses();
 
       filterRows.map((row) => {

@@ -1,7 +1,13 @@
-const { getData, sumValues, getDateToTime } = require('../utils/functions');
+const {
+  getData,
+  sumValues,
+  getDateToTime,
+  getDateGetTime,
+  getRangeDates,
+  getMonthOfExpenses,
+} = require('../utils/functions');
 const { getUserById } = require('../services/user');
 const xlsxPopulate = require('xlsx-populate');
-//const { v4: uuidv4 } = require('uuid');
 
 const getAllExpenses = async () => {
   return await getData('financial');
@@ -61,19 +67,62 @@ const getExpensesByUserAndQuery = async (userId, query) => {
   return objUser;
 };
 
+const getExpensesByUserAndByDate = async (
+  storedDataByUser,
+  startDate,
+  endDate
+) => {
+  const dataFiltered = await storedDataByUser.filter(
+    (expense) =>
+      getDateToTime(expense.date) >= startDate &&
+      getDateToTime(expense.date) <= endDate
+  );
+
+  //const total = await dataFiltered.reduce(sumValues, 0);
+
+  return dataFiltered;
+};
+
 const getTotalAmountExpensesByUser = async (userId, search, start, end) => {
   if (!search && !start && !end) {
-    const data = await getExpensesByUserId(userId);
+    const store = await getExpensesByUserId(userId);
 
-    const total = data.reduce(sumValues, 0);
+    const rangeDates = getRangeDates('2021,1,1');
 
-    return { ...data, total: total };
+    let financialStore = [];
+
+    for (let i = 0; i < 12; i++) {
+      const result = await getExpensesByUserAndByDate(
+        store,
+        getDateGetTime(rangeDates.startOfMonths[i]),
+        getDateGetTime(rangeDates.endOfMonths[i])
+      );
+
+      const total = await result.reduce(sumValues, 0);
+
+      financialStore.push(result, { total: total });
+
+      //const final = { ...financialStore };
+    }
+
+    const totalFiltered = financialStore.map((item) => {
+      if (item.total === 0) {
+        return 'Sem dados';
+      } else {
+        return item;
+      }
+    });
+    return totalFiltered;
   }
 
   if (!start && !end) {
     const data = await getExpensesFilteredByQuery(userId, search);
 
     const total = data.reduce(sumValues, 0);
+
+    if (total === 0) {
+      throw new Error('Não existem despesas cadastradas para este usuário.');
+    }
 
     return { ...data, total: total };
   }
@@ -91,6 +140,10 @@ const getTotalAmountExpensesByUser = async (userId, search, start, end) => {
     );
     const total = dataFiltered.reduce(sumValues, 0);
 
+    if (total === 0) {
+      throw new Error('Não existem despesas cadastradas para este usuário.');
+    }
+
     return { ...dataFiltered, total: total };
   } else {
     const data = await getExpensesFilteredByQuery(userId, search);
@@ -100,6 +153,10 @@ const getTotalAmountExpensesByUser = async (userId, search, start, end) => {
         getDateToTime(expense.date) <= endDate
     );
     const total = dataFiltered.reduce(sumValues, 0);
+
+    if (total === 0) {
+      throw new Error('Não existem despesas cadastradas para este usuário.');
+    }
 
     return { ...dataFiltered, total: total };
   }

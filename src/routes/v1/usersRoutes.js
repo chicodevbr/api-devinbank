@@ -15,5 +15,6 @@ userRoutes.patch(
   [check('name').not().isEmpty(), check('email').normalizeEmail().isEmail()],
   userController.updateUser
 );
+userRoutes.delete('/user/:id', userController.deleteUser);
 
 module.exports = userRoutes;

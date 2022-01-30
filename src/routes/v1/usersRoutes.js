@@ -17,6 +17,6 @@ userRoutes.post(
   userController.createNewUser
 );
 
-userRoutes.delete('/user/:id', userController.deleteUser);
+userRoutes.delete('/user/:userId', userController.deleteUser);
 
 module.exports = userRoutes;

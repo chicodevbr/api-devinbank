@@ -141,6 +141,7 @@ module.exports = {
      * #swagger.description = 'Endpoint para deletar usuário por Id.'
      */
     const { userId } = req.params;
+    console.log(userId);
     const users = await getAllUsers();
 
     const hasUser = await getUserById(userId);

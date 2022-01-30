@@ -7,7 +7,8 @@ const getAllUsers = async () => {
 const getUserById = async (userId) => {
   const users = await getAllUsers();
 
-  return await users.find((item) => item.id === userId);
+  const findUser = await users.find((item) => item.id === userId);
+  return findUser;
 };
 
 module.exports = {

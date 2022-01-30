@@ -48,6 +48,8 @@ Exemplo de como as informações devem ser passadas no body da requisição:
 
 `{  "name": "any",  "email": "any" }`
 
+
+
 #### Update User
 
 Endpoint para atualizar dados de um determinado usuário. É preciso passar o userId como parâmetro via url.
@@ -55,4 +57,40 @@ Endpoint para atualizar dados de um determinado usuário. É preciso passar o us
 `PATCH /api/v1/user/{id}`
 
 
+
+#### Delete User
+
+Para deletar um usuário, basta enviar o userId como parâmetro pra o seguinte endpoint:
+
+`DELETE /api/v1/user/{id}`
+
+
+
+### Financial
+
+Endpoints de transações financeiras.
+
+
+
+#### Transações por Usuário
+
+Endpoint devolve todas as despesas cadastras por usuário. O id do usuário deve ser passado como parâmetro via url. O userId é requisito obrigatório. Opcionalmente é possível passar parâmetros por query para refinar a busca. A *search* query permite que seja passado um termo para pesquisar pelos tipos de despesas cadastradas, termos como moradia, transporte e etc. As queries *start* e *end* permitir criar um range de datas para que as pesquisa seja refinada por períodos de tempo. Start é a data inicial a ser pesquisada, já end é a data final do período a ser pesquisado.
+
+`GET /api/v1/expenses/{userId}`
+
+
+
+#### Cadastrando despesas/transações por usuário
+
+Endpoint do tipo POST que recebe um xlsx, enviado como form-data, com os dados das despesas a serem cadastradas. O userId do usuário, que é um requisito obrigatório, deve ser passado como parâmetro na URL. A tabela xlsx deve conter quatro colunas com dados como nome da despesa, tipo da despesa, data, e valor gasto. O cabeçalho da tabela deve ser 'name, date, typeOfExpenses, amount'.
+
+`POST /api/v1/expenses/{userId}`
+
+
+
+#### Deletando uma despesa
+
+Endpoint do tipo DELETE para apagar do banco de dados uma despesa específica. Tanto o id da despesa quanto o id do usuário devem ser passados como parâmetros via URL.
+
+`DELETE /api/v1/expenses/{userId}/{expenseId}`
 

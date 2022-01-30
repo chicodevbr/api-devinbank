@@ -26,5 +26,33 @@ Endpoint de boas vindas da API:
 
 Esse é o primeiro edpoint da nossa API. Ele devolve uma lista com todos os usuários cadastrados. Para usa-lo basta fazer uma solicitação do tipo GET. 
 
-`GET /api/users`
+`GET /api/v1/users`
+
+
+
+#### Get Users By Id
+
+Endpoint para obter as informações específicas de um determinado usuário. Para isso, o id do usuário deve ser passado como parâmetro pelo url.
+
+`GET /api/v1/user/{id}`
+
+
+
+#### New User
+
+Endponit para cadastrar um novo usuário. 
+
+`POST /api/v1/user`
+
+Exemplo de como as informações devem ser passadas no body da requisição:
+
+`{  "name": "any",  "email": "any" }`
+
+#### Update User
+
+Endpoint para atualizar dados de um determinado usuário. É preciso passar o userId como parâmetro via url.
+
+`PATCH /api/v1/user/{id}`
+
+
 

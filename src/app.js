@@ -19,8 +19,8 @@ app.use(
 app.use('/api/doc', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use(routes);
 
-const PORT = 3000 || process.env.PORT;
+const port = 3000 || process.env.PORT;
 
-app.listen(PORT, () => {
+app.listen(port, () => {
   console.log(`Server running on port: ${PORT}`);
 });

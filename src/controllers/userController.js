@@ -55,26 +55,32 @@ module.exports = {
     }
 
     const { name, email } = req.body;
-    const users = getAllUsers();
+    const users = await getAllUsers();
 
-    const hasUser = users.find((u) => u.email === email);
+    try {
+      const hasUser = await users.find((u) => u.email === email);
 
-    if (hasUser) {
-      return res.status(422).send({
-        message: 'Email já existe em nossa base de dados.',
-      });
+      if (hasUser) {
+        return res.status(422).send({
+          message: 'Email já existe em nossa base de dados.',
+        });
+      }
+      const newUser = [
+        ...users,
+        {
+          id: uuidv4(),
+          name,
+          email,
+        },
+      ];
+      createOrUpdateData('user', newUser);
+      return res
+        .status(201)
+        .send({ message: 'Usuário cadastrado com sucesso.' });
+    } catch (error) {
+      console.log(error.message);
+      return res.status(400).json({ error: error.message });
     }
-
-    const newUser = [
-      ...users,
-      {
-        id: uuidv4(),
-        name,
-        email,
-      },
-    ];
-    createOrUpdateData('user', newUser);
-    return res.status(201).send({ message: 'Usuário cadastrado com sucesso.' });
   },
 
   async updateUser(req, res) {

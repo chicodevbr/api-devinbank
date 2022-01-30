@@ -1,5 +1,12 @@
 const fs = require('fs');
-const eachMonthOfInterval = require('date-fns/eachMonthOfInterval');
+const {
+  eachMonthOfInterval,
+  startOfMonth,
+  endOfMonth,
+  eachDayOfInterval,
+  lastDayOfMonth,
+  getMonth,
+} = require('date-fns');
 
 module.exports = {
   async getData(fileName) {
@@ -29,24 +36,53 @@ module.exports = {
     return total + item.amount;
   },
 
-  getDateRange(start, end) {
+  getRangeDates(date) {
     const today = new Date();
-    const year = new Date().getFullYear();
-    const firstDayOfMonth = new Date(year, today.getMonth() - 1, 1);
 
-    const startDays = eachMonthOfInterval({
-      start: new Date(start),
+    const startOfMonths = eachMonthOfInterval({
+      start: new Date(date),
       end: new Date(today),
     });
 
+    const endOfMonths = startOfMonths.map((item) =>
+      lastDayOfMonth(new Date(item))
+    );
+
+    return {
+      startOfMonths,
+      endOfMonths,
+    };
+  },
+
+  getStartMonth(date) {
+    const today = new Date();
+
+    const startDays = eachMonthOfInterval({
+      start: new Date(date),
+      end: new Date(today),
+    });
+
+    return startDays;
+  },
+
+  getEndMonth(date) {
+    const today = new Date();
+    const year = new Date().getFullYear();
+    const firstDayOfMonth = new Date(year, today.getMonth(), 1);
+
     const endDays = eachMonthOfInterval({
-      start: new Date(end),
+      start: new Date(date),
       end: new Date(firstDayOfMonth),
     });
 
-    return {
-      startDays: startDays,
-      endDays: endDays,
-    };
+    return endDays;
+  },
+
+  getDateGetTime(date) {
+    return new Date(date).getTime();
+  },
+
+  getMonthOfExpenses(data) {
+    return data.map((item) => getMonth(new Date(item.date)));
   },
 };

@@ -56,6 +56,10 @@ Endpoint para atualizar dados de um determinado usuário. É preciso passar o us
 
 `PATCH /api/v1/user/{id}`
 
+Exemplo de como as informações devem ser passadas no body da requisição:
+
+`{  "name": "any",  "email": "any" }`
+
 
 
 #### Delete User

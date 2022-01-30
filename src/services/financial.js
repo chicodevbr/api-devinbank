@@ -98,21 +98,22 @@ const getTotalAmountExpensesByUser = async (userId, search, start, end) => {
         getDateGetTime(rangeDates.endOfMonths[i])
       );
 
-      const total = await result.reduce(sumValues, 0);
+      const totalByMonth = await result.reduce(sumValues, 0);
 
-      financialStore.push(result, { total: total });
+      financialStore.push(result, { totalByMonth: totalByMonth });
 
       //const final = { ...financialStore };
     }
+    const total = store.reduce(sumValues, 0);
 
     const totalFiltered = financialStore.map((item) => {
-      if (item.total === 0) {
+      if (item.totalByMonth === 0) {
         return 'Sem dados';
       } else {
         return item;
       }
     });
-    return totalFiltered;
+    return { ...totalFiltered, total: total };
   }
 
   if (!start && !end) {

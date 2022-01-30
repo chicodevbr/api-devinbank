@@ -118,28 +118,6 @@
             "description": "Unprocessable Entity"
           }
         }
-      },
-      "delete": {
-        "tags": [
-          "User"
-        ],
-        "description": "Endpoint para deletar usuário por Id.",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
       }
     },
     "/api/v1/user": {
@@ -174,6 +152,30 @@
           },
           "422": {
             "description": "Unprocessable Entity"
+          }
+        }
+      }
+    },
+    "/api/v1/user/{userId}": {
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "description": "Endpoint para deletar usuário por Id.",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
@@ -220,7 +222,7 @@
         "tags": [
           "Financial"
         ],
-        "description": "",
+        "description": "Endpoint para importar despesas por usuários. O arquivo xlsx deve ser enviado como form/data.",
         "consumes": [
           "multipart/form-data"
         ],
@@ -236,7 +238,6 @@
             "in": "formData",
             "type": "file",
             "required": true,
-            "description": "Some description...",
             "accept": "/"
           }
         ],

@@ -14,12 +14,12 @@ module.exports = {
   async importExpensesData(req, res) {
     /*
           #swagger.consumes = ['multipart/form-data']
-          #swagger.tags = ['Financial']   
+          #swagger.tags = ['Financial']
+          #swagger.description = 'Endpoint para importar despesas por usuários. O arquivo xlsx deve ser enviado como form/data.'
           #swagger.parameters['file'] = {
               in: 'formData',
               type: 'file',
               required: 'true',
-              description: 'Some description...',
               accept: '/',
         } */
     const { userId } = req.params;

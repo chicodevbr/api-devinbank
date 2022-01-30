@@ -134,4 +134,25 @@ module.exports = {
       return res.status(400).json({ error: error.message });
     }
   },
+
+  async deleteUser(req, res) {
+    const { userId } = req.params;
+    const users = await getAllUsers();
+
+    const hasUser = await getUserById(userId);
+
+    try {
+      if (!hasUser) {
+        return res.status(400).send({ message: 'Usuário não encontrado' });
+      }
+
+      const removeUser = await users.filter((u) => u.id !== userId);
+
+      createOrUpdateData('user', removeUser);
+      res.status(200).json('Usuário deletado.');
+    } catch (error) {
+      console.log(error.message);
+      return res.status(400).json({ error: error.message });
+    }
+  },
 };

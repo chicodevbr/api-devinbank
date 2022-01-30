@@ -1,6 +1,6 @@
 # API DEVinBank - Conta 365
 
-DEVinBank é uma api para gerenciamento de despesas. Através dela é possível cadastrar usuários e as despesas diárias, mensais e anuais desses usuários. A api converte dados .xlsx para .json, formato no qual os dados ficam armazenados.
+DEVinBank é uma api para gerenciamento de despesas. Através dela é possível cadastrar usuários e as despesas diárias, mensais e anuais desses usuários. A api converte dados .xlsx para .json, formato no qual os dados ficam armazenados. [[more](https://devinbank.herokuapp.com/api/doc/)]
 
 ## INSTALL
 
@@ -52,7 +52,7 @@ Exemplo de como as informações devem ser passadas no body da requisição:
 
 #### Update User
 
-Endpoint para atualizar dados de um determinado usuário. É preciso passar o userId como parâmetro via url.
+Endpoint para atualizar dados de um determinado usuário. É preciso passar o userId como parâmetro via URL.
 
 `PATCH /api/v1/user/{id}`
 
@@ -98,3 +98,8 @@ Endpoint do tipo DELETE para apagar do banco de dados uma despesa específica. T
 
 `DELETE /api/v1/expenses/{userId}/{expenseId}`
 
+
+
+### Documentação 
+
+Mais informações podem se encontradas [aqui](https://devinbank.herokuapp.com/api/doc/).

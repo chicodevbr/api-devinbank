@@ -136,6 +136,10 @@ module.exports = {
   },
 
   async deleteUser(req, res) {
+    /**
+     * #swagger.tags = ['User']
+     * #swagger.description = 'Endpoint para deletar usuário por Id.'
+     */
     const { userId } = req.params;
     const users = await getAllUsers();
 

@@ -85,15 +85,34 @@ const getExpensesByUserAndByDate = async (
 
 const getTotalAmountExpensesByUser = async (userId, search, start, end) => {
   if (!search && !start && !end) {
-    const data = await getExpensesByUserId(userId);
+    const store = await getExpensesByUserId(userId);
 
-    const total = data.reduce(sumValues, 0);
+    const rangeDates = getRangeDates('2021,1,1');
 
-    if (total === 0) {
-      throw new Error('Não existem despesas cadastradas para este usuário.');
+    let financialStore = [];
+
+    for (let i = 0; i < 12; i++) {
+      const result = await getExpensesByUserAndByDate(
+        store,
+        getDateGetTime(rangeDates.startOfMonths[i]),
+        getDateGetTime(rangeDates.endOfMonths[i])
+      );
+
+      const total = await result.reduce(sumValues, 0);
+
+      financialStore.push(result, { total: total });
+
+      //const final = { ...financialStore };
     }
 
-    return { ...data, total: total };
+    const totalFiltered = financialStore.map((item) => {
+      if (item.total === 0) {
+        return 'Sem dados';
+      } else {
+        return item;
+      }
+    });
+    return totalFiltered;
   }
 
   if (!start && !end) {

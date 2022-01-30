@@ -1,12 +1,47 @@
 # API DEVinBank - Conta 365
 
+### SOBRE
+
 DEVinBank é uma api para gerenciamento de despesas. Através dela é possível cadastrar usuários e as despesas diárias, mensais e anuais desses usuários. A api converte dados .xlsx para .json, formato no qual os dados ficam armazenados. [[more](https://devinbank.herokuapp.com/api/doc/)]
 
-## INSTALL
+
+
+#### TECNOLOGIAS USADAS
+
+- NodeJS
+- Swagger
+
+
+
+### INSTALL
 
 Após o clonar o repositório, acesse a pasta pra onde o repositório foi clonado e instale a api:
 
+
+
+Clone o Repositório
+
+`git clone https://github.com/chicodevbr/api-devinbank.git`
+
+
+
+Entre no projeto
+
+`cd api-devinbank`
+
+
+
+Instale
+
 `npm install or yarn install`
+
+
+
+Run
+
+`npm start`
+
+
 
 ## Exemplos de uso
 
@@ -27,6 +62,8 @@ Endpoint de boas vindas da API:
 Esse é o primeiro edpoint da nossa API. Ele devolve uma lista com todos os usuários cadastrados. Para usa-lo basta fazer uma solicitação do tipo GET. 
 
 `GET /api/v1/users`
+
+
 
 
 

@@ -4,7 +4,7 @@ const doc = {
     title: 'API DEVinBank',
     description: 'Welcome to API DEVinBank || Conta 365 - version 1.0.0',
   },
-  host: 'https://devinbank.herokuapp.com',
+  host: 'devinbank.herokuapp.com',
   basePath: '/',
   schemes: ['http'],
   consumes: ['application/json'],

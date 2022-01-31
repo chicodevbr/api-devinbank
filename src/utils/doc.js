@@ -6,7 +6,7 @@ const doc = {
   },
   host: 'devinbank.herokuapp.com',
   basePath: '/',
-  schemes: ['http'],
+  schemes: ['https'],
   consumes: ['application/json'],
   produces: ['application/json'],
   tags: [
